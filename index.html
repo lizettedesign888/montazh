@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Урок: монтаж говорящих рилсов в твоём стиле через Claude за 15 минут. Готовый скилл и 6 коротких уроков.">
+<meta name="description" content="Урок: монтаж говорящих рилсов в своём стиле через Claude за 15 минут. Готовый скилл и 6 коротких уроков.">
 <meta property="og:title" content="Монтаж в Claude — урок Лизы Лизетти">
-<meta property="og:description" content="Монтаж рилсов в твоём стиле за 15 минут. Урок + готовый скилл, 1 490 ₽.">
+<meta property="og:description" content="Монтаж рилсов в своём стиле за 15 минут. Урок + готовый скилл, 1 490 ₽.">
 <meta property="og:image" content="media/rezultat.jpg">
 <title>Монтаж в Claude</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -188,13 +188,33 @@ details[open] p{animation:rise .35s ease both}
 .contact .k{font-family:var(--display);font-weight:800;font-size:12px;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
 .contact .v{font-family:var(--display);font-weight:800;font-size:20px;color:var(--pink);user-select:all}
 
-footer{border-top:1px solid #e3dade;padding-block:32px 40px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-size:13px;color:var(--muted)}
+footer{border-top:1px solid #e3dade;padding-block:32px 40px;display:grid;grid-template-columns:1.2fr 1fr .8fr;gap:24px;font-size:13px;color:var(--muted)}
+.f-col{display:flex;flex-direction:column;gap:6px;min-width:0}
+footer a{color:var(--muted)}
+footer a:hover{color:var(--pink)}
+.f-note{grid-column:1/-1;font-size:12px}
+.sel{user-select:all;overflow-wrap:anywhere}
+
+/* consent & access */
+.consent{display:flex;flex-direction:column;gap:10px;font-size:13px;color:var(--on-navy-quiet);max-width:34ch}
+.consent label{display:grid;grid-template-columns:18px 1fr;gap:10px;align-items:start;cursor:pointer}
+.consent input{width:16px;height:16px;margin:2px 0 0;accent-color:var(--pink-bright)}
+.consent a{color:var(--on-navy)}
+.consent-msg{color:var(--pink-pale);font-weight:600}
+.consent.warn label{color:var(--pink-pale)}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.step{background:var(--surface);border-radius:var(--r-md);padding:28px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.step h3{font-family:var(--display);font-weight:800;font-size:19px}
+.step p{color:var(--muted)}
+.help{margin-top:20px;background:var(--surface);border:1.5px solid var(--pink);border-radius:var(--r-md);padding:20px 24px;max-width:820px}
+.help a{color:var(--pink);font-weight:600}
+.contacts .contact:last-child{grid-column:1/-1}
 footer .brand{font-family:var(--display);font-weight:800;color:var(--ink);letter-spacing:.3px}
 footer .brand .it{color:var(--pink)}
 
 @media (max-width:860px){
   .hero,.calc,.program,.offer,.author{grid-template-columns:1fr}
-  .who,.contacts{grid-template-columns:1fr}
+  .who,.contacts,.steps,footer{grid-template-columns:1fr}
   .portrait{margin-block:8px 16px;width:min(84%,320px)}
   .author .ph{max-width:240px}
   .ba{grid-template-columns:1fr 1fr;gap:14px}
@@ -379,10 +399,28 @@ footer .brand .it{color:var(--pink)}
       </div>
       <div class="offer-buy">
         <div class="price">1 490 ₽</div>
-        <a class="btn pulse js-pay" href="#oplata" id="payBtn">Оплатить и получить доступ <span class="arrow">→</span></a>
-        <p class="note">Понадобится подписка Claude, она оплачивается отдельно. После оплаты урока придёт ссылка на Telegram-канал с уроками и файлами.</p>
+        <div class="consent" id="consentBox">
+          <label for="cOffer"><input type="checkbox" id="cOffer"><span>Принимаю условия <a href="legal/oferta.html" target="_blank" rel="noopener">публичной оферты</a></span></label>
+          <label for="cPd"><input type="checkbox" id="cPd"><span>Даю <a href="legal/privacy-consent.html" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и ознакомлен(а) с <a href="legal/privacy-policy.html" target="_blank" rel="noopener">политикой</a></span></label>
+          <p class="consent-msg" id="consentMsg" hidden>Отметь оба пункта, чтобы перейти к оплате.</p>
+        </div>
+        <a class="btn pulse" href="#oplata" id="payBtn">Оплатить и получить доступ <span class="arrow">→</span></a>
+        <p class="note">Понадобится подписка Claude, она оплачивается отдельно.</p>
       </div>
     </div>
+  </section>
+
+  <section id="dostup">
+    <div class="sec-head">
+      <h2>Как получить <span class="it">урок</span></h2>
+      <p>Урок цифровой, доставка не нужна. Доступ приходит сразу после оплаты.</p>
+    </div>
+    <ol class="steps">
+      <li class="step"><span class="num">01</span><h3>Оплата</h3><p>Отмечаешь согласие с офертой и оплачиваешь 1 490 ₽ через платёжный сервис Prodamus. Чек придёт на почту.</p></li>
+      <li class="step"><span class="num">02</span><h3>Ссылка на канал</h3><p>Сразу после оплаты на экране и на почте, указанной при оплате, появится ссылка на закрытый Telegram-канал.</p></li>
+      <li class="step"><span class="num">03</span><h3>Уроки и файлы</h3><p>В канале все 6 уроков, готовый скилл и шпаргалки. Всё открыто сразу, доступ на 12 месяцев.</p></li>
+    </ol>
+    <p class="help">Ссылка не пришла за 15 минут? Напиши в Telegram <a href="https://t.me/lisyouu" target="_blank" rel="noopener">@lisyouu</a> или на <span class="sel">lizettedesign888@gmail.com</span>, указав почту, с которой оплачивали. Доступ выдам вручную.</p>
   </section>
 
   <section id="voprosy">
@@ -404,7 +442,7 @@ footer .brand .it{color:var(--pink)}
       </details>
       <details>
         <summary>Когда я получу доступ?</summary>
-        <p>Сразу после оплаты придёт ссылка на Telegram-канал. Все уроки и файлы открыты сразу, проходишь в своём темпе.</p>
+        <p>Сразу после оплаты на экране и на почте появится ссылка на закрытый Telegram-канал. Все уроки и файлы открыты сразу, доступ на 12 месяцев.</p>
       </details>
       <details>
         <summary>А если у меня не получится?</summary>
@@ -414,22 +452,47 @@ footer .brand .it{color:var(--pink)}
     <div class="contacts">
       <a class="contact" href="https://t.me/lisyouu" target="_blank" rel="noopener"><span class="k">Telegram</span><span class="v">@lisyouu</span></a>
       <a class="contact" href="https://instagram.com/lizette.lizaa" target="_blank" rel="noopener"><span class="k">Директ Instagram</span><span class="v">@lizette.lizaa</span></a>
+      <div class="contact"><span class="k">Почта</span><span class="v sel">lizettedesign888@gmail.com</span></div>
     </div>
   </section>
 
   <footer>
-    <span class="brand">Монтаж в <span class="it">Claude</span> · Лиза Лизетти</span>
-    <span>Telegram: @lisyouu · Instagram: @lizette.lizaa</span>
-    <span>Instagram принадлежит компании Meta, признанной экстремистской организацией и запрещённой в РФ.</span>
+    <div class="f-col">
+      <span class="brand">Монтаж в <span class="it">Claude</span> · Лиза Лизетти</span>
+      <span>Telegram: @lisyouu · Instagram: @lizette.lizaa · lizettedesign888@gmail.com</span>
+    </div>
+    <div class="f-col">
+      <span>Григорьянц Елизавета Владиславовна, самозанятая (НПД)</span>
+      <span>ИНН 502717105036 · Московская область</span>
+    </div>
+    <div class="f-col">
+      <a href="legal/oferta.html">Публичная оферта</a>
+      <a href="legal/privacy-consent.html">Согласие на обработку ПД</a>
+      <a href="legal/privacy-policy.html">Политика обработки ПД</a>
+    </div>
+    <span class="f-note">Instagram принадлежит компании Meta, признанной экстремистской организацией и запрещённой в РФ.</span>
   </footer>
 </div>
 
 <script>
-// Ссылка на оплату Prodamus. Пока пусто, кнопки ведут к блоку оплаты.
+// Ссылка на оплату Prodamus. Вставь её между кавычками.
 const PAY_URL = "";
-if (PAY_URL) {
-  document.querySelectorAll('.js-pay').forEach(a => { a.href = PAY_URL; a.target = "_blank"; a.rel = "noopener"; });
-}
+const payBtn = document.getElementById('payBtn');
+const cOffer = document.getElementById('cOffer'), cPd = document.getElementById('cPd');
+const consentBox = document.getElementById('consentBox'), consentMsg = document.getElementById('consentMsg');
+payBtn.addEventListener('click', e => {
+  if (!cOffer.checked || !cPd.checked) {
+    e.preventDefault();
+    consentBox.classList.add('warn'); consentMsg.hidden = false;
+    (cOffer.checked ? cPd : cOffer).focus();
+    return;
+  }
+  if (!PAY_URL) { e.preventDefault(); consentMsg.textContent = 'Оплата скоро откроется.'; consentMsg.hidden = false; return; }
+  payBtn.href = PAY_URL; payBtn.target = '_blank'; payBtn.rel = 'noopener';
+});
+[cOffer, cPd].forEach(c => c.addEventListener('change', () => {
+  if (cOffer.checked && cPd.checked) { consentBox.classList.remove('warn'); consentMsg.hidden = true; }
+}));
 
 // калькулятор
 const fmt = n => Math.round(n).toLocaleString('ru-RU').replace(/ /g,' ') + ' ₽';
