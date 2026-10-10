@@ -416,7 +416,7 @@ footer .brand .it{color:var(--pink)}
       <p>Урок цифровой, доставка не нужна. Доступ приходит сразу после оплаты.</p>
     </div>
     <ol class="steps">
-      <li class="step"><span class="num">01</span><h3>Оплата</h3><p>Отмечаешь согласие с офертой и нажимаешь «Оплатить». Откроется Telegram-бот со ссылкой на оплату 1 490 ₽ через ЮKassa: картой или через СБП.</p></li>
+      <li class="step"><span class="num">01</span><h3>Оплата</h3><p>Отмечаешь согласие с офертой и нажимаешь «Оплатить». Откроется Telegram-бот, и оплата 1 490 ₽ через ЮKassa пройдёт прямо там.</p></li>
       <li class="step"><span class="num">02</span><h3>Ссылка от бота</h3><p>Сразу после оплаты бот пришлёт личную ссылку в закрытый канал с уроками.</p></li>
       <li class="step"><span class="num">03</span><h3>Уроки и файлы</h3><p>В канале все 6 уроков, готовый скилл и шпаргалки. Всё открыто сразу, доступ на 12 месяцев.</p></li>
     </ol>
@@ -476,7 +476,7 @@ footer .brand .it{color:var(--pink)}
 
 <script>
 // Имя Telegram-бота без @. Оплата открывается в боте: он выдаёт ссылку ЮKassa и после оплаты сам присылает доступ.
-const BOT_USERNAME = ""; // например montazh_claude_bot
+const BOT_USERNAME = "montazhclaudebot";
 const PAY_URL = BOT_USERNAME ? 'https://t.me/' + BOT_USERNAME + '?start=pay' : '';
 const payBtn = document.getElementById('payBtn');
 const cOffer = document.getElementById('cOffer'), cPd = document.getElementById('cPd');
