@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Урок: монтаж говорящих рилсов в твоём стиле через Claude за 15 минут. Готовый скилл и 6 коротких уроков.">
+<meta property="og:title" content="Монтаж в Claude — урок Лизы Лизетти">
+<meta property="og:description" content="Монтаж рилсов в твоём стиле за 15 минут. Урок + готовый скилл, 1 490 ₽.">
+<meta property="og:image" content="media/rezultat.jpg">
+<title>Монтаж в Claude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800;900&family=Playfair+Display:ital,wght@1,500&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: navy hero with Liza's photo and floating edit tags, a ticker strip, then a before/after video pair; cream sections in one 1080px column, no shadows. */
+:root{
+  --ink:#000000;
+  --surface:#FFFFFF;
+  --cream:#F8F4F5;
+  --navy:#201E33;
+  --pink:#E2418A;
+  --pink-bright:#FF5FA8;
+  --pink-pale:#FBB8DB;
+  --highlight:#F1F4C0;
+  --muted:#4A4550;
+  --on-navy:#FFFFFF;
+  --on-navy-quiet:#C9C4D6;
+  --display:'Montserrat',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --accent:'Playfair Display',Georgia,'Times New Roman',serif;
+  --body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --r-sm:10px;--r-md:20px;--r-lg:28px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:16px 0;overflow-x:hidden}
+.wrap{max-width:1080px;margin-inline:auto}
+a{color:inherit}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+img,video{max-width:100%;display:block}
+.it{font-family:var(--accent);font-style:italic;font-weight:500;text-transform:none;letter-spacing:0}
+
+/* motion */
+@keyframes rise{from{opacity:.001;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(var(--rot,0deg))}50%{transform:translateY(-10px) rotate(var(--rot,0deg))}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(226,65,138,.55)}70%{box-shadow:0 0 0 16px rgba(226,65,138,0)}100%{box-shadow:0 0 0 0 rgba(226,65,138,0)}}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes shine{from{background-position:-200% 0}to{background-position:200% 0}}
+@keyframes blink{50%{opacity:0}}
+.rise{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.08s}.d2{animation-delay:.18s}.d3{animation-delay:.3s}.d4{animation-delay:.42s}.d5{animation-delay:.55s}
+
+/* buttons & pills */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--pink);color:#fff;font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:.4px;text-transform:uppercase;text-decoration:none;padding:18px 28px;border-radius:999px;border:0;cursor:pointer;transition:transform .2s ease,background .2s ease}
+.btn:hover{background:#c9306f;transform:translateY(-2px)}
+.btn.pulse{animation:pulse 2.4s ease-out infinite}
+.btn .arrow{transition:transform .2s ease}
+.btn:hover .arrow{transform:translateX(4px)}
+.btn:focus-visible,summary:focus-visible,input:focus-visible,.contact:focus-visible,.playboth:focus-visible{outline:3px solid var(--pink-bright);outline-offset:3px}
+.pill{display:inline-flex;align-items:center;font-family:var(--display);font-weight:800;font-size:12px;letter-spacing:.6px;text-transform:uppercase;padding:8px 14px;border-radius:999px}
+.pill.pink{background:var(--pink);color:#fff}
+.pill.pale{background:var(--pink-pale);color:var(--ink)}
+.pill.line{border:1.5px solid var(--on-navy-quiet);color:var(--on-navy)}
+
+/* hero */
+.hero{background:var(--navy);color:var(--on-navy);border-radius:var(--r-lg);padding:clamp(28px,5vw,56px);display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;overflow:hidden;position:relative}
+.hero-text{display:flex;flex-direction:column;gap:22px;min-width:0;position:relative;z-index:1}
+.hero .pills{display:flex;flex-wrap:wrap;gap:10px}
+.hero h1{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(34px,6vw,62px);line-height:.98;letter-spacing:-.5px}
+.hero h1 .it{color:var(--pink-bright);font-size:1.08em;background:linear-gradient(90deg,var(--pink-bright) 0%,#ffd1e6 50%,var(--pink-bright) 100%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shine 5s linear infinite}
+.hero .lead{font-size:clamp(17px,2vw,19px);color:var(--on-navy-quiet);max-width:36ch}
+.hero .buy{display:flex;flex-wrap:wrap;align-items:center;gap:18px}
+.price{font-family:var(--display);font-weight:900;font-size:30px;font-variant-numeric:tabular-nums}
+.price small{display:block;font-family:var(--body);font-weight:500;font-size:13px;color:var(--on-navy-quiet);letter-spacing:0}
+.burst{position:absolute;right:-120px;top:-120px;width:420px;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(255,95,168,.30) 0%,rgba(255,95,168,0) 70%);pointer-events:none}
+
+.portrait{position:relative;justify-self:center;width:min(100%,360px);min-width:0}
+.portrait .photo{border-radius:180px 180px var(--r-md) var(--r-md);overflow:hidden;aspect-ratio:4/5;border:6px solid rgba(255,255,255,.08)}
+.portrait .photo img{width:100%;height:100%;object-fit:cover;object-position:50% 25%}
+.tag{position:absolute;background:var(--surface);color:var(--ink);font-family:var(--display);font-weight:800;font-size:12px;letter-spacing:.4px;text-transform:uppercase;padding:10px 14px;border-radius:999px;display:flex;align-items:center;gap:8px;white-space:nowrap;animation:float 4s ease-in-out infinite}
+.tag .dot{width:8px;height:8px;border-radius:50%;background:var(--pink)}
+.tag.t1{top:14%;left:-8%;--rot:-4deg}
+.tag.t2{top:46%;right:-10%;--rot:3deg;animation-delay:-1.3s;background:var(--pink);color:#fff}
+.tag.t2 .dot{background:#fff}
+.tag.t3{bottom:10%;left:-4%;--rot:-2deg;animation-delay:-2.4s}
+.tag.t3 .it{font-size:15px;color:var(--pink)}
+.rec{position:absolute;top:18px;right:18px;display:flex;align-items:center;gap:6px;font-family:var(--display);font-weight:800;font-size:11px;letter-spacing:.6px;color:#fff;background:rgba(0,0,0,.45);padding:6px 10px;border-radius:999px}
+.rec::before{content:"";width:8px;height:8px;border-radius:50%;background:#ff3b5c;animation:blink 1.2s steps(1) infinite}
+
+/* ticker */
+.ticker{margin-top:16px;background:var(--pink);color:#fff;border-radius:999px;overflow:hidden;padding-block:14px}
+.ticker-track{display:flex;width:max-content;animation:ticker 26s linear infinite}
+.ticker span{font-family:var(--display);font-weight:800;font-size:14px;letter-spacing:1px;text-transform:uppercase;padding-inline:22px;white-space:nowrap}
+.ticker span.it{font-size:17px;text-transform:none;letter-spacing:0}
+
+/* sections */
+section{padding-block:clamp(48px,7vw,80px)}
+.sec-head{display:flex;flex-direction:column;gap:14px;margin-bottom:32px;max-width:720px}
+.sec-head h2{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(26px,4vw,40px);line-height:1.05}
+.sec-head h2 .it{color:var(--pink);font-size:1.1em}
+.sec-head p{color:var(--muted);font-size:17px;max-width:60ch}
+
+/* before / after videos */
+.ba{display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:center;max-width:860px}
+.clip{display:flex;flex-direction:column;gap:14px;min-width:0}
+.clip .frame{position:relative;border-radius:var(--r-md);overflow:hidden;aspect-ratio:9/16;background:var(--navy);max-width:100%}
+.clip video{width:100%;height:100%;object-fit:cover}
+.clip .label{position:absolute;top:14px;left:14px;z-index:1}
+.clip h3{font-family:var(--display);font-weight:800;font-size:18px}
+.clip p{color:var(--muted);font-size:15px}
+.ba .mid{display:flex;flex-direction:column;align-items:center;gap:10px}
+.ba .mid .circle{width:64px;aspect-ratio:1;border-radius:50%;background:var(--navy);color:var(--pink-bright);display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:22px}
+.ba .mid span{font-family:var(--display);font-weight:800;font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);text-align:center}
+.playboth{margin-top:24px;background:none;border:1.5px solid var(--ink);color:var(--ink);font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:.5px;text-transform:uppercase;padding:14px 22px;border-radius:999px;cursor:pointer;transition:background .2s ease,color .2s ease}
+.playboth:hover{background:var(--ink);color:#fff}
+
+/* calculator */
+.calc{background:var(--surface);border-radius:var(--r-md);padding:clamp(22px,4vw,40px);display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+.calc .fields{display:flex;flex-direction:column;gap:22px;min-width:0}
+.field label{display:flex;justify-content:space-between;gap:12px;font-weight:600;margin-bottom:10px}
+.field output{font-family:var(--display);font-weight:800;font-variant-numeric:tabular-nums;color:var(--pink)}
+input[type=range]{width:100%;accent-color:var(--pink)}
+.result{background:var(--pink-pale);border-radius:var(--r-md);padding:28px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.result .k{font-family:var(--display);font-weight:800;font-size:12px;letter-spacing:.6px;text-transform:uppercase}
+.result .big{font-family:var(--display);font-weight:900;font-size:clamp(36px,6vw,54px);line-height:1;font-variant-numeric:tabular-nums}
+.result .row{display:flex;justify-content:space-between;gap:12px;border-top:1px solid rgba(0,0,0,.15);padding-top:12px;margin-top:10px;font-variant-numeric:tabular-nums}
+.result .row b{font-family:var(--display);font-weight:800}
+
+/* for whom */
+.who{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{background:var(--surface);border-radius:var(--r-md);padding:28px;display:flex;flex-direction:column;gap:12px;min-width:0;transition:transform .25s ease,background .25s ease}
+.card:hover{transform:translateY(-6px);background:#fff7fb}
+.card h3{font-family:var(--display);font-weight:800;font-size:19px;line-height:1.2}
+.card p{color:var(--muted)}
+.num{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.4px;color:var(--pink)}
+
+/* program */
+.program{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:start}
+.lessons{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;background:var(--surface);border-radius:var(--r-md);overflow:hidden}
+.lessons li{display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:baseline;padding:20px 24px;border-bottom:1px solid var(--cream);transition:background .2s ease}
+.lessons li:hover{background:#fff4f9}
+.lessons li:last-child{border-bottom:0}
+.lessons .t{font-weight:600}
+.lessons .d{display:block;color:var(--muted);font-size:14px;font-weight:400;margin-top:2px}
+.lessons .min{font-size:13px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.inside{background:var(--navy);color:var(--on-navy);border-radius:var(--r-md);padding:28px;display:flex;flex-direction:column;gap:18px}
+.inside h3{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:20px}
+.inside h3 .it{color:var(--pink-bright)}
+.inside ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px}
+.inside li{display:grid;grid-template-columns:18px 1fr;gap:10px;color:var(--on-navy-quiet)}
+.inside li::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--pink-bright);margin-top:7px}
+.inside li b{color:var(--on-navy);font-weight:600}
+
+/* author */
+.author{background:var(--pink-pale);border-radius:var(--r-lg);padding:clamp(28px,5vw,48px);display:grid;grid-template-columns:260px 1fr;gap:36px;align-items:center}
+.author .ph{border-radius:var(--r-md);overflow:hidden;aspect-ratio:3/4;max-width:100%;transform:rotate(-2.5deg);transition:transform .3s ease}
+.author .ph:hover{transform:rotate(0deg) scale(1.02)}
+.author .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+.author h2{font-family:var(--display);font-weight:800;font-size:clamp(24px,3.4vw,34px);line-height:1.1;margin-bottom:12px}
+.author h2 .it{color:var(--pink)}
+.author p{max-width:60ch}
+.author p+p{margin-top:10px}
+
+/* pricing */
+.offer{background:var(--navy);color:var(--on-navy);border-radius:var(--r-lg);padding:clamp(28px,5vw,56px);display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;position:relative;overflow:hidden}
+.offer h2{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(28px,4.5vw,46px);line-height:1}
+.offer h2 .it{color:var(--pink-bright)}
+.offer ul{margin:18px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:10px}
+.offer-buy{display:flex;flex-direction:column;align-items:flex-start;gap:14px;min-width:0;position:relative;z-index:1}
+.offer-buy .price{font-size:52px}
+.offer-buy .note{font-size:13px;color:var(--on-navy-quiet);max-width:30ch}
+
+/* faq */
+.faq{display:flex;flex-direction:column;gap:12px;max-width:820px}
+details{background:var(--surface);border-radius:var(--r-md);padding:0 24px}
+summary{cursor:pointer;list-style:none;padding:20px 0;font-weight:600;font-size:17px;display:flex;justify-content:space-between;gap:16px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:var(--display);font-weight:800;font-size:22px;color:var(--pink);transition:transform .25s ease;flex-shrink:0}
+details[open] summary::after{transform:rotate(45deg)}
+details p{padding-bottom:20px;color:var(--muted);max-width:65ch}
+details[open] p{animation:rise .35s ease both}
+
+/* contacts */
+.contacts{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:20px;max-width:820px}
+.contact{display:flex;flex-direction:column;gap:4px;background:var(--surface);border:1.5px solid var(--pink);border-radius:var(--r-md);padding:20px 24px;text-decoration:none;transition:transform .2s ease,background .2s ease}
+.contact:hover{transform:translateY(-3px);background:#fff7fb}
+.contact .k{font-family:var(--display);font-weight:800;font-size:12px;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+.contact .v{font-family:var(--display);font-weight:800;font-size:20px;color:var(--pink);user-select:all}
+
+footer{border-top:1px solid #e3dade;padding-block:32px 40px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-size:13px;color:var(--muted)}
+footer .brand{font-family:var(--display);font-weight:800;color:var(--ink);letter-spacing:.3px}
+footer .brand .it{color:var(--pink)}
+
+@media (max-width:860px){
+  .hero,.calc,.program,.offer,.author{grid-template-columns:1fr}
+  .who,.contacts{grid-template-columns:1fr}
+  .portrait{margin-block:8px 16px;width:min(84%,320px)}
+  .author .ph{max-width:240px}
+  .ba{grid-template-columns:1fr 1fr;gap:14px}
+  .ba .mid{display:none}
+}
+@media (max-width:420px){
+  .lessons li{grid-template-columns:32px 1fr;padding:18px}
+  .lessons .min{grid-column:2}
+  .btn{width:100%}
+  .tag{font-size:10.5px;padding:8px 11px}
+  .tag.t1{left:-4%}.tag.t2{right:-4%}
+  .clip h3{font-size:15px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero" id="top">
+    <div class="burst" aria-hidden="true"></div>
+    <div class="hero-text">
+      <div class="pills rise d1">
+        <span class="pill pink">Урок + готовый скилл</span>
+        <span class="pill line">Для говорящих рилсов</span>
+      </div>
+      <h1 class="rise d2">Монтаж рилсов в&nbsp;твоём <span class="it">стиле</span> за 15&nbsp;минут</h1>
+      <p class="lead rise d3">Загружаешь видео в Claude, пишешь одно сообщение и получаешь готовый рилс: хук, субтитры, акценты, зум и звуки. Без монтажёра и без вечеров в CapCut.</p>
+      <div class="buy rise d4">
+        <a class="btn pulse js-pay" href="#oplata">Забрать урок <span class="arrow">→</span></a>
+        <div class="price">1 490 ₽<small>один раз, доступ сразу</small></div>
+      </div>
+    </div>
+    <div class="portrait rise d3">
+      <div class="photo"><img src="media/liza.jpg" alt="Лиза Лизетти, автор урока" width="900" height="1124"></div>
+      <span class="rec">REC</span>
+      <span class="tag t1"><span class="dot"></span>Субтитры</span>
+      <span class="tag t2"><span class="dot"></span>Zoom</span>
+      <span class="tag t3">Акцент <span class="it">словом</span></span>
+    </div>
+  </header>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>Хук вверху кадра</span><span class="it">твой стиль</span><span>Субтитры</span><span class="it">акцентные слова</span><span>Зум</span><span>Звуки</span><span class="it">вспышки</span><span>15 минут</span>
+      <span>Хук вверху кадра</span><span class="it">твой стиль</span><span>Субтитры</span><span class="it">акцентные слова</span><span>Зум</span><span>Звуки</span><span class="it">вспышки</span><span>15 минут</span>
+    </div>
+  </div>
+
+  <section id="primer">
+    <div class="sec-head">
+      <span class="pill pale" style="align-self:flex-start">Реальный пример</span>
+      <h2>Из исходников в&nbsp;<span class="it">рилс</span></h2>
+      <p>Мой рилс «Мне 17, и мой план — миллион за год». Слева то, что я загрузила в Claude, справа то, что получилось после монтажа.</p>
+    </div>
+    <div class="ba">
+      <div class="clip">
+        <div class="frame">
+          <span class="pill pale label">Исходники</span>
+          <video id="vSrc" src="media/ishodniki.mp4" poster="media/ishodniki.jpg" playsinline muted loop preload="metadata" controls></video>
+        </div>
+        <h3>Что я загрузила</h3>
+        <p>Сырые кадры с прогулки и голос, без текста и эффектов.</p>
+      </div>
+      <div class="mid" aria-hidden="true"><div class="circle">→</div><span>Claude<br>+ скилл</span></div>
+      <div class="clip">
+        <div class="frame">
+          <span class="pill pink label">Результат</span>
+          <video id="vRes" src="media/rezultat.mp4" poster="media/rezultat.jpg" playsinline muted loop preload="metadata" controls></video>
+        </div>
+        <h3>Что получилось</h3>
+        <p>Хук, акцентные слова, графика, счётчик, звуки и переходы.</p>
+      </div>
+    </div>
+    <button class="playboth" id="playBoth" type="button">Включить оба видео</button>
+  </section>
+
+  <section id="schitaem">
+    <div class="sec-head">
+      <span class="pill pale" style="align-self:flex-start">Посчитай</span>
+      <h2>Сколько стоит твой <span class="it">монтаж</span></h2>
+      <p>Подвинь ползунки под свой ритм. Цена урока одна, сколько бы роликов ни выходило.</p>
+    </div>
+    <div class="calc">
+      <div class="fields">
+        <div class="field">
+          <label for="perWeek">Рилсов в неделю <output id="perWeekOut" for="perWeek">3</output></label>
+          <input type="range" id="perWeek" min="1" max="7" step="1" value="3">
+        </div>
+        <div class="field">
+          <label for="perReel">Монтажёр берёт за ролик <output id="perReelOut" for="perReel">800 ₽</output></label>
+          <input type="range" id="perReel" min="500" max="3000" step="100" value="800">
+        </div>
+        <p style="color:var(--muted);font-size:14px">Для расчёта месяц = 4 недели.</p>
+      </div>
+      <div class="result" aria-live="polite">
+        <span class="k">Ты отдаёшь монтажёру за год</span>
+        <span class="big" id="perYear">115 200 ₽</span>
+        <div class="row"><span>В месяц</span><b id="perMonth">9 600 ₽</b></div>
+        <div class="row"><span>Урок окупается за</span><b id="payback">2 ролика</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="komu">
+    <div class="sec-head">
+      <h2>Кому <span class="it">подойдёт</span></h2>
+      <p>Экспертам и блогерам, которые снимают себя на камеру и рассказывают о своём деле.</p>
+    </div>
+    <div class="who">
+      <div class="card">
+        <span class="num">Платишь монтажёру</span>
+        <h3>Хочешь перестать отдавать по 800 ₽ за каждый ролик</h3>
+        <p>Один раз настраиваешь свой стиль и дальше монтируешь самостоятельно, в том же качестве и без ожидания.</p>
+      </div>
+      <div class="card">
+        <span class="num">Монтируешь самостоятельно</span>
+        <h3>Тратишь на один рилс целый вечер</h3>
+        <p>Субтитры, акценты, зум и звуки собираются по твоему шаблону. Тебе остаётся проверить и поправить.</p>
+      </div>
+      <div class="card">
+        <span class="num">Почти не снимаешь</span>
+        <h3>Откладываешь рилсы, потому что монтаж кажется долгим</h3>
+        <p>Когда ролик готов за 15 минут, снимать хочется чаще. Можно сделать пачку за один вечер.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="programma">
+    <div class="sec-head">
+      <h2>Что <span class="it">внутри</span></h2>
+      <p>Шесть коротких уроков по порядку. К концу последнего у тебя готов первый рилс в твоём стиле.</p>
+    </div>
+    <div class="program">
+      <ol class="lessons">
+        <li><span class="num">01</span><span class="t">Что получишь и что для этого нужно<span class="d">До и после, что понадобится для старта</span></span><span class="min">3–5 мин</span></li>
+        <li><span class="num">02</span><span class="t">Подписка и настройки<span class="d">Как оплачиваю Claude я сама и что включить</span></span><span class="min">5–7 мин</span></li>
+        <li><span class="num">03</span><span class="t">Ставим готовый скилл<span class="d">Где скачать, куда загрузить, как проверить</span></span><span class="min">5 мин</span></li>
+        <li><span class="num">04</span><span class="t">Твой фирменный стиль<span class="d">Шрифты, цвет акцентов, звуки одним сообщением</span></span><span class="min">8–10 мин</span></li>
+        <li><span class="num">05</span><span class="t">Снимаем и монтируем первый рилс<span class="d">Свет, звук, хук и тезисы, разбор результата</span></span><span class="min">8–10 мин</span></li>
+        <li><span class="num">06</span><span class="t">Правки и частые проблемы<span class="d">Готовые фразы для правок и быстрые решения</span></span><span class="min">5–7 мин</span></li>
+      </ol>
+      <div class="inside">
+        <h3>Что ты <span class="it">получишь</span></h3>
+        <ul>
+          <li><span><b>Готовый скилл монтажа.</b> Загружаешь и меняешь под себя обычными словами</span></li>
+          <li><span><b>Шпаргалка «Мой стиль».</b> Куда вписать свои цвета, шрифты и звуки</span></li>
+          <li><span><b>Бесплатные шрифты и звуки.</b> Список того, чем пользуюсь я</span></li>
+          <li><span><b>Фразы для правок.</b> «Сделай зум сильнее», «убери звук на 5 секунде»</span></li>
+          <li><span><b>Доступ в Telegram.</b> Все уроки и файлы сразу после оплаты</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="avtor">
+    <div class="author">
+      <div class="ph"><img src="media/liza-moskva.jpg" alt="Лиза на вечерней улице Москвы" width="900" height="1200" loading="lazy"></div>
+      <div>
+        <h2>Привет, я <span class="it">Лиза</span></h2>
+        <p>Делаю дизайн и монтаж через нейросети: сайты, презентации, гайды и рилсы. Так монтирую свои ролики и ролики для экспертов, с которыми работаю.</p>
+        <p>Я не программист. Раньше один рилс занимал у меня вечер, теперь около 15 минут. В уроке показываю ровно тот способ, которым пользуюсь сама.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="oplata">
+    <div class="offer">
+      <div class="burst" aria-hidden="true"></div>
+      <div style="position:relative;z-index:1">
+        <h2>Свой <span class="it">стиль</span> без монтажёра</h2>
+        <ul>
+          <li class="pill line">6 уроков</li>
+          <li class="pill line">Готовый скилл</li>
+          <li class="pill line">Шпаргалка стиля</li>
+          <li class="pill line">Шрифты и звуки</li>
+        </ul>
+      </div>
+      <div class="offer-buy">
+        <div class="price">1 490 ₽</div>
+        <a class="btn pulse js-pay" href="#oplata" id="payBtn">Оплатить и получить доступ <span class="arrow">→</span></a>
+        <p class="note">Понадобится подписка Claude, она оплачивается отдельно. После оплаты урока придёт ссылка на Telegram-канал с уроками и файлами.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="voprosy">
+    <div class="sec-head">
+      <h2>Частые <span class="it">вопросы</span></h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>Я не технарь. Точно разберусь?</summary>
+        <p>Да. В уроке нет кода: ты загружаешь готовый шаблон и меняешь его обычными словами, например «сделай акцентное слово розовым». Каждый шаг показан на экране.</p>
+      </details>
+      <details>
+        <summary>Что нужно, кроме урока?</summary>
+        <p>Подписка Claude, компьютер и видео, снятое вертикально. Во втором уроке показываю, как оплачиваю подписку я.</p>
+      </details>
+      <details>
+        <summary>Какие видео подойдут?</summary>
+        <p>Вертикальные 9:16, где ты говоришь в камеру: экспертные рилсы, советы, истории. Можно добавлять кадры с прогулок, как в моём примере выше.</p>
+      </details>
+      <details>
+        <summary>Когда я получу доступ?</summary>
+        <p>Сразу после оплаты придёт ссылка на Telegram-канал. Все уроки и файлы открыты сразу, проходишь в своём темпе.</p>
+      </details>
+      <details>
+        <summary>А если у меня не получится?</summary>
+        <p>Напиши мне в Telegram или в директ Instagram и пришли скриншот шага, на котором возникла сложность. Разберёмся вместе.</p>
+      </details>
+    </div>
+    <div class="contacts">
+      <a class="contact" href="https://t.me/lisyouu" target="_blank" rel="noopener"><span class="k">Telegram</span><span class="v">@lisyouu</span></a>
+      <a class="contact" href="https://instagram.com/lizette.lizaa" target="_blank" rel="noopener"><span class="k">Директ Instagram</span><span class="v">@lizette.lizaa</span></a>
+    </div>
+  </section>
+
+  <footer>
+    <span class="brand">Монтаж в <span class="it">Claude</span> · Лиза Лизетти</span>
+    <span>Telegram: @lisyouu · Instagram: @lizette.lizaa</span>
+    <span>Instagram принадлежит компании Meta, признанной экстремистской организацией и запрещённой в РФ.</span>
+  </footer>
+</div>
+
+<script>
+// Ссылка на оплату Prodamus. Пока пусто, кнопки ведут к блоку оплаты.
+const PAY_URL = "";
+if (PAY_URL) {
+  document.querySelectorAll('.js-pay').forEach(a => { a.href = PAY_URL; a.target = "_blank"; a.rel = "noopener"; });
+}
+
+// калькулятор
+const fmt = n => Math.round(n).toLocaleString('ru-RU').replace(/ /g,' ') + ' ₽';
+const perWeek = document.getElementById('perWeek');
+const perReel = document.getElementById('perReel');
+const yearEl = document.getElementById('perYear');
+const plural = (n, one, few, many) => {
+  const m10 = n % 10, m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return one;
+  if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return few;
+  return many;
+};
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let shownYear = 115200, raf = 0;
+function animateYear(target){
+  cancelAnimationFrame(raf);
+  if (reduce) { shownYear = target; yearEl.textContent = fmt(target); return; }
+  const from = shownYear, t0 = performance.now(), dur = 450;
+  const step = now => {
+    const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+    shownYear = from + (target - from) * e;
+    yearEl.textContent = fmt(shownYear);
+    if (k < 1) raf = requestAnimationFrame(step);
+  };
+  raf = requestAnimationFrame(step);
+}
+function update(){
+  const w = +perWeek.value, r = +perReel.value;
+  const month = w * 4 * r;
+  document.getElementById('perWeekOut').textContent = w;
+  document.getElementById('perReelOut').textContent = fmt(r);
+  document.getElementById('perMonth').textContent = fmt(month);
+  animateYear(month * 12);
+  const n = Math.ceil(1490 / r);
+  document.getElementById('payback').textContent = n + ' ' + plural(n, 'ролик', 'ролика', 'роликов');
+}
+perWeek.addEventListener('input', update);
+perReel.addEventListener('input', update);
+
+// видео до/после
+const vSrc = document.getElementById('vSrc'), vRes = document.getElementById('vRes');
+document.getElementById('playBoth').addEventListener('click', () => {
+  [vSrc, vRes].forEach(v => { try { v.currentTime = 0; const p = v.play(); if (p) p.catch(() => {}); } catch (e) {} });
+});
+if ('IntersectionObserver' in window && !reduce) {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      const v = en.target;
+      if (en.isIntersecting) { const p = v.play(); if (p) p.catch(() => {}); } else { v.pause(); }
+    });
+  }, { threshold: 0.4 });
+  io.observe(vSrc); io.observe(vRes);
+}
+</script>
+
+</body>
+</html>
